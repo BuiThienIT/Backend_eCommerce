@@ -1,24 +1,26 @@
+require('dotenv').config()
 const compression = require('compression')
+const bodyParser = require('body-parser')
 const express = require('express')
 const { default: helmet } = require('helmet')
 const morgan = require('morgan')
 
 const app = express()
-
 // init middlewares
+
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(compression())
+app.use(express.json())
 
-// init db
+// init db and check connection
+
+require('./dbs/init.mongodb')
+const { countConnect, checkOverload } = require('./helpers/check.connect')
+checkOverload()
 
 // init routes
-
-app.get('/',(req,res,next) => {
-    return res.status(200).json({
-        message: 'success'
-    })
-})
+app.use('/', require('./routers'))
 
 // handdling errors
 
