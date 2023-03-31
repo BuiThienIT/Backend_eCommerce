@@ -4,9 +4,10 @@
 
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
+x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
 
 {
     "name": "Shop UIT",
-    "email": "shopuit01@gmail.com",
+    "email": "shopuit32@gmail.com",
     "password": "abc123"
 }
