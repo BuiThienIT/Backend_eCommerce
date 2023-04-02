@@ -26,6 +26,10 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
     return { accessToken, refreshToken }
 }
 
+const verifyJWT = async (token, keySecret) => {
+    return await JWT.verify(token, keySecret)
+}
+
 const authentication = asyncHandler(async (req, res, next) => {
     const userId = req.headers[HEADER.CLIENT_ID]
 
@@ -51,4 +55,5 @@ const authentication = asyncHandler(async (req, res, next) => {
 module.exports = {
     createTokenPair,
     authentication,
+    verifyJWT,
 }
