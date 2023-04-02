@@ -4,18 +4,53 @@ const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const { createTokenPair } = require('../auth/authUtils')
 const KeyTokenService = require('./keyToken.service')
-const { RoleShop } = require('../constants/shop.constant')
-const { getInfoData } = require('../utils')
-const {
-    BadRequestError,
-    ConflictRequestError,
-} = require('../core/error.response')
+const { RoleShop } = require('../constants')
+const { getInfoData, createKeys } = require('../utils')
+const { BadRequestError, ConflictRequestError, AuthFailureError } = require('../core/error.response')
+
+//service
+const ShopService = require('../services/shop.service')
 
 class AccessService {
+    static logout = async ({keyStore} ) => {
+        const deleteKey = await KeyTokenService.removeToken(keyStore._id)
+
+        return deleteKey
+    }
+
+    static login = async ({ email, password, refereshToken = null }) => {
+        const foundShop = await ShopService.findByEmail({ email })
+        if (!foundShop) {
+            throw new BadRequestError('Shop is not registered')
+        }
+
+        const match = bcrypt.compare(password, foundShop.password)
+        if (!match) {
+            throw new AuthFailureError('Authentication Error')
+        }
+
+        const { privateKey, publicKey } = createKeys()
+
+        const { _id: userId } = foundShop
+        const tokens = await createTokenPair({ userId, email }, publicKey, privateKey)
+
+        await KeyTokenService.createKeyToken({
+            refreshToken: tokens.refreshToken,
+            privateKey,
+            publicKey,
+            userId,
+        })
+
+        return {
+            shop: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
+            tokens,
+        }
+    }
+
     static signUpRSA = async ({ name, email, password }) => {
-        const holderShop = await shopModel.findOne({ email }).lean()
-        if (holderShop) {
-            throw new BadRequestError('Error: Shop is already registered')
+        const existsShop = await ShopService.findByEmail({ email })
+        if (existsShop) {
+            throw new BadRequestError('Shop is already registered')
         }
 
         const passwordHash = await bcrypt.hash(password, 10)
@@ -29,20 +64,17 @@ class AccessService {
 
         if (newShop) {
             // Created privateKy, publicKey
-            const { privateKey, publicKey } = crypto.generateKeyPairSync(
-                'rsa',
-                {
-                    modulusLength: 4096,
-                    publicKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem',
-                    },
-                    privateKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem',
-                    },
+            const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+                modulusLength: 4096,
+                publicKeyEncoding: {
+                    type: 'pkcs1',
+                    format: 'pem',
                 },
-            )
+                privateKeyEncoding: {
+                    type: 'pkcs1',
+                    format: 'pem',
+                },
+            })
             // Public key CryptoGraphy Standards!
 
             const publicKeyString = await KeyTokenService.createKeyToken({
@@ -56,33 +88,23 @@ class AccessService {
 
             const publicKeyObject = crypto.createPublicKey(publicKeyString)
 
-            const tokens = await createTokenPair(
-                { userId: newShop._id, email },
-                publicKeyObject,
-                privateKey,
-            )
+            const tokens = await createTokenPair({ userId: newShop._id, email }, publicKeyObject, privateKey)
 
             return {
-                code: 201,
-                metadata: {
-                    shop: getInfoData({
-                        fields: ['_id', 'name', 'email'],
-                        object: newShop,
-                    }),
-                    tokens,
-                },
+                shop: getInfoData({
+                    fields: ['_id', 'name', 'email'],
+                    object: newShop,
+                }),
+                tokens,
             }
-            return {
-                code: 200,
-                metadata: null,
-            }
+            return null
         }
     }
 
     static signUp = async ({ name, email, password }) => {
-        const holderShop = await shopModel.findOne({ email }).lean()
-        if (holderShop) {
-            throw new BadRequestError('Error: Shop is already registered')
+        const existsShop = await ShopService.findByEmail({ email })
+        if (existsShop) {
+            throw new BadRequestError('Shop is already registered')
         }
 
         const passwordHash = await bcrypt.hash(password, 10)
@@ -96,8 +118,7 @@ class AccessService {
 
         if (newShop) {
             // Created privateKy, publicKey
-            const privateKey = crypto.randomBytes(64).toString('hex')
-            const publicKey = crypto.randomBytes(64).toString('hex')
+            const { privateKey, publicKey } = createKeys()
             // Public key CryptoGraphy Standards!
             const keyStore = await KeyTokenService.createKeyToken({
                 userId: newShop._id,
@@ -106,28 +127,20 @@ class AccessService {
             })
 
             if (!keyStore) {
-                throw new BadRequestError('Error: keyStore error')
+                throw new BadRequestError('KeyStore error')
             }
 
-            const tokens = await createTokenPair(
-                { userId: newShop._id, email },
-                keyStore.publicKey,
-                keyStore.privateKey,
-            )
+            const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey)
 
             return {
-                metadata: {
-                    shop: getInfoData({
-                        fields: ['_id', 'name', 'email'],
-                        object: newShop,
-                    }),
-                    tokens,
-                },
+                shop: getInfoData({
+                    fields: ['_id', 'name', 'email'],
+                    object: newShop,
+                }),
+                tokens,
             }
         }
-        return {
-            metadata: null,
-        }
+        return null
     }
 }
 

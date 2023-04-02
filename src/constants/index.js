@@ -7,6 +7,13 @@ const RoleShop = {
     EDITOR: '00002',
 }
 
+const HEADER = {
+    API_KEY: 'x-api-key',
+    CLIENT_ID: 'x-client-id',
+    AUTHORIZATION: 'authorization',
+}
+
 module.exports = {
     RoleShop,
+    HEADER
 }
