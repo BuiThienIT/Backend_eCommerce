@@ -52,6 +52,36 @@ class AccessService {
         }
     }
 
+    static handlerRefreshTokenV2 = async ({ refreshToken, user, keyStore }) => {
+        const { userId, email } = user
+
+        if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+            await KeyTokenService.deleteKeyByUserId(userId)
+            throw new ForbiddenError('Something wrong happend. Please relogin')
+        }
+
+        if (keyStore.refreshToken !== refreshToken) throw new AuthFailureError('Shop not registered')
+
+        const foundShop = await ShopService.findByEmail({ email })
+        if (!foundShop) throw new AuthFailureError('Shop not registered')
+
+        const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey)
+
+        await keyStore.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken,
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken,
+            },
+        })
+
+        return {
+            user: { userId, email },
+            tokens,
+        }
+    }
+
     static logout = async ({ keyStore }) => {
         const deleteKey = await KeyTokenService.removeToken(keyStore._id)
 
