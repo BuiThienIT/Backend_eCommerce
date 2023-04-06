@@ -1,0 +1,31 @@
+@url_dev=http://localhost:3055/v1/api/product
+
+
+### create product
+
+POST {{url_dev}}/create
+Content-Type: 'application/json'
+x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-rftoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI3YWVjZWEyYTA3Yzg0ZGI2NjdlZDYiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTY3ODgsImV4cCI6MTY4MTEwMTU4OH0.q3Uke_QYdG0-5jwpyVYpIwRbYBWZYEKWAfpYhcMFW7k
+x-client-id: 6427aecea2a07c84db667ed6
+
+{
+    "product_name": "Macbook Air M2",
+    "product_thumb": "product_thumb",
+    "product_description":  "Macbook Air M2 for Apple",
+    "product_price": 1000,
+    "product_quantity" : 90,
+    "product_type": "Electronics",
+    "product_attributes": {
+        "manufacturer": "Apple",
+        "model": "M1_2021",
+        "color": "Black"
+    }
+}
+
+###
+GET {{url_dev}}/published/all
+Content-Type: 'application/json'
+x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-rftoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI3YWVjZWEyYTA3Yzg0ZGI2NjdlZDYiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTY3ODgsImV4cCI6MTY4MTEwMTU4OH0.q3Uke_QYdG0-5jwpyVYpIwRbYBWZYEKWAfpYhcMFW7k
+x-client-id: 6427aecea2a07c84db667ed6

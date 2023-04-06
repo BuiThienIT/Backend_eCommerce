@@ -1,6 +1,5 @@
 require('dotenv').config()
 const compression = require('compression')
-const bodyParser = require('body-parser')
 const express = require('express')
 const { default: helmet } = require('helmet')
 const morgan = require('morgan')
@@ -35,6 +34,7 @@ app.use((error, req, res, next) => {
     return res.status(statusCode).json({
         status: 'error',
         code: statusCode,
+        stack: error.stack,
         message: error.message || 'Internal Server Error',
     })
 })
