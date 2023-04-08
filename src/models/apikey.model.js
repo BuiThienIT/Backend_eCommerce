@@ -12,6 +12,10 @@ var apiKeySchema = new Schema(
             required: true,
             unique: true,
         },
+        // description: {
+        //     type: String,
+        // },
+        // version: { type: String, default: new Date().toISOString() },
         status: {
             type: Boolean,
             default: true,

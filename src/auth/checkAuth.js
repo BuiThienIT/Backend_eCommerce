@@ -1,15 +1,11 @@
 'use strict'
 
 const { findById } = require('../services/apikey.service')
-
-const HEADER = {
-    API_KEY: 'x-api-key',
-    AUTHORIZATION: 'authorization',
-}
+const { header } = require('../utils')
 
 const apiKey = async (req, res, next) => {
     try {
-        const key = req.headers[HEADER.API_KEY]?.toString()
+        const key = req.headers[header.API_KEY]?.toString()
 
         if (!key) {
             return res.status(403).json({
