@@ -1,0 +1,6 @@
+@url_dev=http://localhost:3056/v1/api
+
+### signup shop
+
+POST {{url_dev}}/apikey/create
+Content-Type: application/json

@@ -1,14 +1,14 @@
-@url_dev=http://localhost:3055/v1/api/
+@url_dev=http://localhost:3056/v1/api/
 
 ### signup shop
 
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-api-key: ebe5bed9d525e03af6b21ecd55f2d2805a7c058040068696384f543014a096d997e18bc39d7736a2ffe78ece53c1e4174c6789ffe0c4ef66c730eb4d1f954403
 
 {
     "name": "Shop UIT",
-    "email": "shop02@gmail.com",
+    "email": "shop01@gmail.com",
     "password": "abc123"
 }
 
@@ -16,7 +16,7 @@ x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a
 
 POST {{url_dev}}/shop/login
 Content-Type: application/json
-x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-api-key: ebe5bed9d525e03af6b21ecd55f2d2805a7c058040068696384f543014a096d997e18bc39d7736a2ffe78ece53c1e4174c6789ffe0c4ef66c730eb4d1f954403
 
 {
     "email": "shop01@gmail.com",
@@ -28,7 +28,7 @@ x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a
 
 POST {{url_dev}}/shop/logout
 Content-Type: application/json
-x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-api-key: ebe5bed9d525e03af6b21ecd55f2d2805a7c058040068696384f543014a096d997e18bc39d7736a2ffe78ece53c1e4174c6789ffe0c4ef66c730eb4d1f954403
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI4ZjRkMTNlMjUzZDg2MmFlYmNmNTYiLCJlbWFpbCI6InNob3AwMkBnbWFpbC5jb20iLCJpYXQiOjE2ODA0MDU3MjEsImV4cCI6MTY4MDU3ODUyMX0.9ECV00ieRKcMmVCd4z78M6z4rAEJ7AVq5j0EbdEGc8g
 x-client-id: 6427aecea2a07c84db667ed6
 
@@ -37,7 +37,7 @@ x-client-id: 6427aecea2a07c84db667ed6
 
 POST {{url_dev}}/shop/refreshToken
 Content-Type: application/json
-x-api-key: 430b26e8a038aa3608b52d5f6dd7c9a5910a35970888fc5aec8f6b6202e32ce2a778a47a68b570007b5d355d8d8531671d950e501a96a9c47ef256faa9571aa0
+x-api-key: ebe5bed9d525e03af6b21ecd55f2d2805a7c058040068696384f543014a096d997e18bc39d7736a2ffe78ece53c1e4174c6789ffe0c4ef66c730eb4d1f954403
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI3YWVjZWEyYTA3Yzg0ZGI2NjdlZDYiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTU4NjcsImV4cCI6MTY4MDY2ODY2N30.JdlIAZcF0rNY_FNzNWeubkAqU9SxMiQrBXCajBn84o8
 x-rftoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI3YWVjZWEyYTA3Yzg0ZGI2NjdlZDYiLCJlbWFpbCI6InNob3AwMUBnbWFpbC5jb20iLCJpYXQiOjE2ODA0OTU4NjcsImV4cCI6MTY4MTEwMDY2N30.mT8jlvCw5Dp4_f1cufGd7NJkRcKqL7sNkSBG-k0zfn8
 x-client-id: 6427aecea2a07c84db667ed6
