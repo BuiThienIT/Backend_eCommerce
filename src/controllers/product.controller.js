@@ -18,6 +18,17 @@ class ProductController {
 
     // PUT,PATCH
 
+    updateProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Update product suceess',
+            metadata: await ProductService.updateProduct(
+                req.body.product_type,
+                req.params.productId,
+                req.body,
+            ),
+        }).send(res)
+    }
+
     /**
      * @desc publish product by shop
      * @param {String} product_shop

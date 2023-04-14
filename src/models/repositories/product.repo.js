@@ -3,6 +3,7 @@
 const { product, electronic, clothing } = require('../product.model')
 const { getSelectData, unGetSelectData } = require('../../utils')
 const { Types } = require('mongoose')
+const { is } = require('express/lib/request')
 
 const findAllDraftsForShop = async ({ query, limit, skip }) => {
     return await queryProduct({ query, limit, skip })
@@ -76,6 +77,12 @@ const findProduct = async ({ product_id, unSelect }) => {
     return await product.findById(product_id).select(unGetSelectData(unSelect)).lean().exec()
 }
 
+const updateProductById = async ({ productId, payload, model, isNew = true }) => {
+    return await model.findByIdAndUpdate(productId, payload, {
+        new: isNew,
+    })
+}
+
 const queryProduct = async ({ query, limit, skip }) => {
     return await product
         .find(query)
@@ -95,4 +102,5 @@ module.exports = {
     searchProductsByUser,
     findAllProducts,
     findProduct,
+    updateProductById,
 }
